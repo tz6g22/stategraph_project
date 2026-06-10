@@ -10,7 +10,7 @@ from pathlib import Path
 from stategraph.core.answer_generation import AnswerGenerator
 from stategraph.core.conflict_detection import ConflictDetector
 from stategraph.core.graph_store import (
-    InMemoryStateGraph,
+    GraphStore,
     dataset_example_from_dict,
     evidence_from_dict,
 )
@@ -54,7 +54,7 @@ class StateGraphPipeline:
     def run_example(self, payload: dict[str, object]) -> dict[str, object]:
         """Run the skeleton pipeline on one JSON-like example."""
         example = dataset_example_from_dict(payload)
-        graph = InMemoryStateGraph()
+        graph = GraphStore()
         for index, evidence_payload in enumerate(example.history):
             if "evidence_id" not in evidence_payload:
                 evidence_payload["evidence_id"] = f"{example.case_id}_history_{index}"
@@ -97,30 +97,32 @@ class StateGraphPipeline:
         )
 
         # 5. propagate invalidation through typed edges
-        propagated_invalidations = self.propagator.propagate(
+        propagation_report = self.propagator.propagate(
             graph=graph,
-            starting_state_ids=directly_invalidated,
+            seed_state_ids=directly_invalidated,
         )
 
         # 6. check query premise
-        premise_result = self.premise_checker.check(example.query, graph)
+        premise_report = self.premise_checker.check(example.query, graph)
 
         # 7. retrieve current states and supporting evidence
         retrieval_result = self.retriever.retrieve(example.query, graph)
 
         # 8. generate final answer
-        answer = self.answer_generator.generate(
+        generated_answer = self.answer_generator.generate(
             query=example.query,
-            retrieval=retrieval_result,
-            premise_check=premise_result,
+            retrieval_result=retrieval_result,
+            premise_reports=[premise_report],
         )
 
         return {
             "case_id": example.case_id,
-            "prediction": answer,
-            "premise_status": premise_result.status,
+            "prediction": generated_answer.answer,
+            "answer": generated_answer.answer,
+            "generated_answer": generated_answer.model_dump(),
+            "premise_status": premise_report.recommended_response_policy,
             "directly_invalidated_state_ids": directly_invalidated,
-            "propagated_invalidated_state_ids": sorted(propagated_invalidations),
+            "propagated_invalidated_state_ids": propagation_report.propagated_state_ids,
             "retrieved_state_ids": [state.state_id for state in retrieval_result.states],
         }
 

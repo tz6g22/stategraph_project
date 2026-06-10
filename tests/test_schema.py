@@ -6,7 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from stategraph.core.graph_store import (
-    InMemoryStateGraph,
+    GraphStore,
     dataset_example_from_dict,
 )
 from stategraph.schemas import (
@@ -116,11 +116,21 @@ def test_graph_store_uses_central_schemas() -> None:
         evidence_id=evidence.evidence_id,
         confidence=0.9,
     )
+    target_state = StateNode(
+        state_id="s2",
+        entity="Alice",
+        attribute="location",
+        value="Rome",
+        status="uncertain",
+        evidence_id=evidence.evidence_id,
+        confidence=0.5,
+    )
     edge = StateEdge(source="s1", target="s2", edge_type="updates")
 
-    graph = InMemoryStateGraph()
+    graph = GraphStore()
     graph.add_evidence(evidence)
     graph.add_state(state)
+    graph.add_state(target_state)
     graph.add_edge(edge)
 
     assert graph.get_state("s1") == state
