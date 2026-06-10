@@ -1,0 +1,17 @@
+# Model configuration for future experiments.
+# No LLM APIs are called by the current skeleton.
+model:
+  provider: none
+  name: placeholder
+  temperature: 0.0
+  max_tokens: 0
+  api_enabled: false
+
+state_extraction:
+  strategy: stub
+  confidence_threshold: 0.0
+
+answer_generation:
+  strategy: stub
+  use_llm: false
+

@@ -1,0 +1,32 @@
+# Baseline configuration for the MVP.
+enabled:
+  - vector_rag
+  - summary_memory
+  - time_decay_rag
+  - cupmem_reimpl
+  - stategraph
+
+external_memory_systems:
+  mem0:
+    enabled: false
+  graphiti:
+    enabled: false
+  amem:
+    enabled: false
+  letta:
+    enabled: false
+
+vector_rag:
+  embedding_model: none
+  top_k: 5
+
+summary_memory:
+  max_summary_tokens: 0
+
+time_decay_rag:
+  top_k: 5
+  decay_half_life_days: 30
+
+cupmem_reimpl:
+  mode: stub
+
