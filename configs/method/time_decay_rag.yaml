@@ -1,0 +1,9 @@
+# Time-decay RAG MVP baseline configuration.
+method:
+  name: time_decay_rag
+  enabled: true
+
+retrieval:
+  top_k: 5
+  decay_half_life_days: 30
+

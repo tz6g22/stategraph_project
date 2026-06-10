@@ -1,0 +1,8 @@
+# Summary memory MVP baseline configuration.
+method:
+  name: summary_memory
+  enabled: true
+
+summary:
+  max_summary_tokens: 0
+

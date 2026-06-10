@@ -21,62 +21,58 @@ External memory systems are not integrated in this scaffold. `Mem0`, `Graphiti`,
 ```text
 stategraph_project/
 |-- README.md
-|-- __init__.py
 |-- pyproject.toml
-|-- baselines/
-|   |-- __init__.py
-|   |-- amem_runner.py
-|   |-- cupmem_reimpl.py
-|   |-- graphiti_runner.py
-|   |-- letta_runner.py
-|   |-- mem0_runner.py
-|   |-- summary_memory.py
-|   |-- time_decay_rag.py
-|   `-- vector_rag.py
 |-- configs/
-|   |-- baseline.yaml
-|   |-- dataset.yaml
-|   `-- model.yaml
+|   |-- dataset/
+|   |-- experiment/
+|   |-- method/
+|   `-- model/
 |-- data/
-|   |-- longmemeval/
-|   |-- longmemeval_v2/
-|   |-- memora/
-|   |-- stale/
+|   |-- README.md
+|   |-- processed/
+|   |-- raw/
 |   `-- statechangebench/
+|       |-- dev.jsonl
+|       `-- test.jsonl
+|-- experiments/
+|   |-- ablation/
+|   `-- mvp/
 |-- outputs/
 |   |-- error_analysis/
 |   |-- graphs/
 |   |-- metrics/
-|   `-- predictions/
+|   |-- predictions/
+|   `-- tables/
 |-- scripts/
 |   |-- __init__.py
 |   |-- build_statechangebench.py
 |   |-- evaluate_all.py
 |   `-- make_tables.py
 |-- src/
-|   |-- __init__.py
-|   |-- answer_generation.py
-|   |-- conflict_detection.py
-|   |-- graph_store.py
-|   |-- invalidation_propagation.py
-|   |-- metrics.py
-|   |-- premise_checking.py
-|   |-- retrieval.py
-|   |-- run_baseline.py
-|   |-- run_stategraph.py
-|   |-- state_extraction.py
-|   `-- state_revision.py
+|   `-- stategraph/
+|       |-- baselines/
+|       |-- core/
+|       |-- evaluation/
+|       |-- llm/
+|       |-- methods/
+|       |-- runners/
+|       |-- utils/
+|       |-- dataset_io.py
+|       `-- schemas.py
 `-- tests/
+    |-- test_dataset_io.py
     |-- test_imports.py
     `-- test_schema.py
 ```
 
 Key modules:
 
-- `src/graph_store.py` defines `StateNode`, `EvidenceNode`, `StateEdge`, `DatasetExample`, and a replaceable in-memory graph store.
-- `src/run_stategraph.py` wires the eight-step StateGraph pipeline skeleton.
-- `src/run_baseline.py` provides a JSONL runner for MVP baseline stubs.
-- `src/metrics.py` lists metric stubs for future evaluation.
+- `src/stategraph/schemas.py` defines the core schemas.
+- `src/stategraph/dataset_io.py` provides JSONL dataset I/O.
+- `src/stategraph/core/graph_store.py` defines the replaceable in-memory graph store.
+- `src/stategraph/runners/run_method.py` wires the eight-step StateGraph pipeline skeleton.
+- `src/stategraph/runners/run_experiment.py` provides a JSONL runner for MVP method stubs.
+- `src/stategraph/evaluation/metrics.py` lists metric stubs for future evaluation.
 
 ## StateGraph Pipeline Skeleton
 
@@ -94,7 +90,7 @@ Key modules:
 Future experiments should use JSONL examples compatible with `DatasetExample`:
 
 ```json
-{"case_id":"example-1","history":[],"new_observation":"","query":"","gold_current_states":[],"gold_invalidated_states":[],"gold_keep_states":[],"gold_answer":""}
+{"case_id":"example-1","history":[],"new_observation":{"text":""},"query":"Example query?","gold_current_states":[],"gold_invalidated_states":[],"gold_keep_states":[],"gold_answer":"","expected_behavior":""}
 ```
 
 Datasets are not downloaded by this project skeleton.
@@ -104,19 +100,19 @@ Datasets are not downloaded by this project skeleton.
 Run import-safe tests:
 
 ```bash
-python3 -m unittest discover -s stategraph_project/tests
+pytest -q
 ```
 
 Run a baseline stub on a JSONL file:
 
 ```bash
-python -m stategraph_project.src.run_baseline --baseline vector_rag --input data/examples.jsonl --output outputs/predictions/vector_rag.jsonl
+PYTHONPATH=src python -m stategraph.runners.run_experiment --baseline vector_rag --input data/examples.jsonl --output outputs/predictions/vector_rag.jsonl
 ```
 
 Run the StateGraph skeleton:
 
 ```bash
-python -m stategraph_project.src.run_stategraph --input data/examples.jsonl --output outputs/predictions/stategraph.jsonl
+PYTHONPATH=src python -m stategraph.runners.run_method --input data/examples.jsonl --output outputs/predictions/stategraph.jsonl
 ```
 
 These commands are lightweight placeholders. They do not call LLM APIs, install external systems, or run expensive experiments.

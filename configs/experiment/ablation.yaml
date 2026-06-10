@@ -1,0 +1,12 @@
+# Ablation experiment configuration placeholder.
+experiment:
+  name: ablation
+  dataset: statechangebench
+  split: dev
+
+ablations:
+  - name: no_propagation
+    enabled: false
+  - name: no_premise_checking
+    enabled: false
+

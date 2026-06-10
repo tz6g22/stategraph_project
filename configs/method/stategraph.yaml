@@ -1,0 +1,16 @@
+# StateGraph method configuration.
+method:
+  name: stategraph
+  enabled: true
+  mode: stub
+
+pipeline:
+  state_extraction: stub
+  state_linking: stub
+  conflict_detection: stub
+  state_revision: stub
+  invalidation_propagation: stub
+  premise_checking: stub
+  retrieval: stub
+  answer_generation: stub
+

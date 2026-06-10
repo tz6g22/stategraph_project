@@ -1,0 +1,6 @@
+# CupMem-style MVP baseline configuration.
+method:
+  name: cupmem_reimpl
+  enabled: true
+  mode: stub
+

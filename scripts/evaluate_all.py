@@ -4,9 +4,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
-from stategraph_project.src.metrics import METRIC_REGISTRY
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_DIR = PROJECT_ROOT / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from stategraph.evaluation.metrics import METRIC_REGISTRY
 
 
 def evaluate_all(predictions_dir: Path, output_path: Path) -> None:
@@ -46,4 +52,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

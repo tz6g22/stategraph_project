@@ -1,0 +1,30 @@
+# MVP experiment configuration.
+experiment:
+  name: mvp
+  dataset: statechangebench
+  split: dev
+
+enabled_methods:
+  - vector_rag
+  - summary_memory
+  - time_decay_rag
+  - cupmem_reimpl
+  - stategraph
+
+external_memory_systems:
+  mem0:
+    enabled: false
+  graphiti:
+    enabled: false
+  amem:
+    enabled: false
+  letta:
+    enabled: false
+
+outputs:
+  predictions: outputs/predictions
+  graphs: outputs/graphs
+  metrics: outputs/metrics
+  error_analysis: outputs/error_analysis
+  tables: outputs/tables
+

@@ -1,0 +1,11 @@
+# StateChangeBench dataset configuration.
+# Datasets are intentionally not downloaded by this skeleton.
+dataset:
+  name: statechangebench
+  processed_path: data/processed/statechangebench
+  path: data/statechangebench
+  split: dev
+
+io:
+  input_format: jsonl
+  output_format: jsonl

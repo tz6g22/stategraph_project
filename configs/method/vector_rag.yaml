@@ -1,0 +1,9 @@
+# Vector RAG MVP baseline configuration.
+method:
+  name: vector_rag
+  enabled: true
+
+retrieval:
+  embedding_model: none
+  top_k: 5
+

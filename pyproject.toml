@@ -24,9 +24,9 @@ dev = ["pytest>=8.0"]
 test = ["pytest>=8.0"]
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["stategraph_project*"]
+where = ["src"]
+include = ["stategraph*"]
 
 [tool.pytest.ini_options]
-pythonpath = [".."]
+pythonpath = ["src", "."]
 testpaths = ["tests"]

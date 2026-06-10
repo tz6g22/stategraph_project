@@ -1,0 +1,12 @@
+# STALE/CUPMem-style dataset configuration.
+# Datasets are intentionally not downloaded by this skeleton.
+dataset:
+  name: stale
+  raw_path: data/raw/stale
+  processed_path: data/processed/stale
+  split: test
+
+io:
+  input_format: jsonl
+  output_format: jsonl
+

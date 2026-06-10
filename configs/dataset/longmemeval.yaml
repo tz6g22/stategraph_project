@@ -1,0 +1,16 @@
+# LongMemEval dataset configuration.
+# Datasets are intentionally not downloaded by this skeleton.
+datasets:
+  longmemeval:
+    raw_path: data/raw/longmemeval
+    processed_path: data/processed/longmemeval
+    split: test
+  longmemeval_v2:
+    raw_path: data/raw/longmemeval_v2
+    processed_path: data/processed/longmemeval
+    split: test
+
+io:
+  input_format: jsonl
+  output_format: jsonl
+

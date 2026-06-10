@@ -1,0 +1,2 @@
+"""External baseline integration stubs."""
+

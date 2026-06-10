@@ -1,0 +1,12 @@
+# Memora dataset configuration.
+# Datasets are intentionally not downloaded by this skeleton.
+dataset:
+  name: memora
+  raw_path: data/raw/memora
+  processed_path: data/processed/memora
+  split: test
+
+io:
+  input_format: jsonl
+  output_format: jsonl
+

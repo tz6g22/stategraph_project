@@ -2,21 +2,14 @@
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
 import pytest
 from pydantic import ValidationError
 
-PROJECT_PARENT = Path(__file__).resolve().parents[2]
-if str(PROJECT_PARENT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_PARENT))
-
-from stategraph_project.src.graph_store import (
+from stategraph.core.graph_store import (
     InMemoryStateGraph,
     dataset_example_from_dict,
 )
-from stategraph_project.src.schemas import (
+from stategraph.schemas import (
     ConflictDecision,
     DatasetExample,
     EvidenceNode,
